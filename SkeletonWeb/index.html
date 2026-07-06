@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>산겸짱 - K-POP 직캠 플랫폼</title>
+  <!-- Pretendard Font CDN -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body class="dark-mode">
+  
+  <div class="app-container">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon">
+          <i data-lucide="play" class="icon-logo"></i>
+        </div>
+        <div class="logo-text">
+          <h1>산겸짱</h1>
+          <span>FANCAM PLATFORM</span>
+        </div>
+      </div>
+      
+      <nav class="sidebar-menu">
+        <a href="#" class="menu-item active" data-view="home">
+          <i data-lucide="home"></i>
+          <span>HOME</span>
+        </a>
+        <a href="#" class="menu-item" data-view="bookmarks">
+          <i data-lucide="heart"></i>
+          <span>찜한 직캠</span>
+        </a>
+        <a href="#" class="menu-item" data-view="random">
+          <i data-lucide="shuffle"></i>
+          <span>RANDOM</span>
+        </a>
+        <a href="#" class="menu-item" data-view="recent">
+          <i data-lucide="clock"></i>
+          <span>최근 본 영상</span>
+        </a>
+      </nav>
+      
+      <div class="sidebar-divider"></div>
+      
+      <div class="sidebar-section">
+        <div class="section-header">
+          <span>카테고리</span>
+          <button class="btn-edit-category">편집</button>
+        </div>
+        <div class="category-menu">
+          <a href="#" class="category-item active" data-category="전체">
+            <i data-lucide="layers"></i>
+            <span>전체보기</span>
+          </a>
+          <a href="#" class="category-item" data-category="인기 TOP10">
+            <i data-lucide="flame"></i>
+            <span>인기 TOP10</span>
+          </a>
+          <a href="#" class="category-item" data-category="남자 아이돌">
+            <i data-lucide="user"></i>
+            <span>남자 아이돌</span>
+          </a>
+          <a href="#" class="category-item" data-category="여자 아이돌">
+            <i data-lucide="user"></i>
+            <span>여자 아이돌</span>
+          </a>
+          <a href="#" class="category-item" data-category="음악방송">
+            <i data-lucide="tv"></i>
+            <span>음악방송</span>
+          </a>
+          <a href="#" class="category-item" data-category="팬캠">
+            <i data-lucide="video"></i>
+            <span>팬캠</span>
+          </a>
+          <a href="#" class="category-item" data-category="콘서트">
+            <i data-lucide="mic"></i>
+            <span>콘서트</span>
+          </a>
+          <a href="#" class="category-item" data-category="댄스 영상">
+            <i data-lucide="footprints"></i>
+            <span>댄스 영상</span>
+          </a>
+          <a href="#" class="category-item" data-category="계절 / 컨셉">
+            <i data-lucide="sparkles"></i>
+            <span>계절 / 컨셉</span>
+          </a>
+        </div>
+      </div>
+      
+      <div class="sidebar-divider"></div>
+      
+      <div class="sidebar-section popular-searches-section">
+        <div class="section-header">
+          <span>인기 검색어 TOP10</span>
+        </div>
+        <ol class="popular-search-list" id="popularSearchList">
+          <!-- JS에서 동적으로 채워짐 -->
+        </ol>
+      </div>
+    </aside>
+    
+    <!-- MIDDLE MAIN CONTENT -->
+    <main class="main-content">
+      
+      <!-- HEADER BAR -->
+      <header class="main-header">
+        <div class="search-container">
+          <div class="search-wrapper">
+            <button id="searchIconBtn" class="search-icon-inside-btn" aria-label="검색" title="검색">
+              <i data-lucide="search" class="search-icon-inside"></i>
+            </button>
+            <input type="text" id="searchInput" placeholder="직캠, 아이돌, 멤버, 무대, 방송 등 검색해보세요!" />
+          </div>
+        </div>
+        
+        <div class="header-actions">
+          <button class="action-btn" id="apiKeySettingsBtn" title="API Key 설정">
+            <i data-lucide="key"></i>
+          </button>
+          <button class="action-btn" id="notifBtn" aria-label="알림">
+            <i data-lucide="bell"></i>
+            <span class="badge-dot"></span>
+          </button>
+          <button class="action-btn" id="themeToggleBtn" aria-label="테마 전환">
+            <i data-lucide="moon" id="themeIcon"></i>
+          </button>
+          <div class="profile-widget">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100" alt="프로필 이미지" class="profile-img" />
+            <span class="profile-name">산겸러버 ❤</span>
+          </div>
+        </div>
+      </header>
+      
+      <!-- CHIPS CONTAINER -->
+      <div class="search-chips-container">
+        <div class="chips-list" id="chipsList">
+          <!-- JS에서 동적으로 태그가 생성됨 (예: #최산, #도겸) -->
+        </div>
+        <button class="add-chip-btn" id="addChipBtn" title="검색 칩 추가">
+          <i data-lucide="plus"></i>
+        </button>
+      </div>
+      
+      <!-- MAIN VIEWS PANEL -->
+      <div class="view-panel" id="viewPanel">
+        
+        <!-- HOME VIEW -->
+        <div class="view-container active" id="homeView">
+          
+          <!-- Default Home Dashboard Content -->
+          <div class="dashboard-content" id="dashboardContent">
+            
+            <!-- 인기 TOP10 Carousel Section -->
+            <section class="carousel-section" id="popularSection">
+              <div class="section-title-row">
+                <h2><i data-lucide="flame" class="icon-inline text-orange"></i> 인기 TOP10</h2>
+                <button class="see-more-btn" data-category="인기 TOP10">더보기 ></button>
+              </div>
+              <div class="carousel-container">
+                <button class="carousel-arrow left"><i data-lucide="chevron-left"></i></button>
+                <div class="carousel-track" id="popularCarousel">
+                  <!-- JS가 카드를 렌더링 -->
+                </div>
+                <button class="carousel-arrow right"><i data-lucide="chevron-right"></i></button>
+              </div>
+            </section>
+            
+            <!-- 남자 아이돌 Carousel Section -->
+            <section class="carousel-section" id="maleSection">
+              <div class="section-title-row">
+                <h2><i data-lucide="user" class="icon-inline text-purple"></i> 남자 아이돌</h2>
+                <button class="see-more-btn" data-category="남자 아이돌">더보기 ></button>
+              </div>
+              <div class="carousel-container">
+                <button class="carousel-arrow left"><i data-lucide="chevron-left"></i></button>
+                <div class="carousel-track" id="maleCarousel">
+                  <!-- JS가 카드를 렌더링 -->
+                </div>
+                <button class="carousel-arrow right"><i data-lucide="chevron-right"></i></button>
+              </div>
+            </section>
+            
+            <!-- 여자 아이돌 Carousel Section -->
+            <section class="carousel-section" id="femaleSection">
+              <div class="section-title-row">
+                <h2><i data-lucide="user" class="icon-inline text-pink"></i> 여자 아이돌</h2>
+                <button class="see-more-btn" data-category="여자 아이돌">더보기 ></button>
+              </div>
+              <div class="carousel-container">
+                <button class="carousel-arrow left"><i data-lucide="chevron-left"></i></button>
+                <div class="carousel-track" id="femaleCarousel">
+                  <!-- JS가 카드를 렌더링 -->
+                </div>
+                <button class="carousel-arrow right"><i data-lucide="chevron-right"></i></button>
+              </div>
+            </section>
+            
+            <!-- 음악방송 Carousel Section -->
+            <section class="carousel-section" id="tvSection">
+              <div class="section-title-row">
+                <h2><i data-lucide="tv" class="icon-inline text-blue"></i> 음악방송</h2>
+                <button class="see-more-btn" data-category="음악방송">더보기 ></button>
+              </div>
+              <div class="carousel-container">
+                <button class="carousel-arrow left"><i data-lucide="chevron-left"></i></button>
+                <div class="carousel-track" id="tvCarousel">
+                  <!-- JS가 카드를 렌더링 -->
+                </div>
+                <button class="carousel-arrow right"><i data-lucide="chevron-right"></i></button>
+              </div>
+            </section>
+            
+            <!-- 실시간 인기 검색어 Chips at bottom -->
+            <section class="bottom-trending-section">
+              <div class="section-title-row">
+                <h2><i data-lucide="trending-up" class="icon-inline text-purple"></i> 실시간 인기 검색어</h2>
+              </div>
+              <div class="trending-chips" id="trendingChips">
+                <!-- JS가 검색어 칩을 렌더링 -->
+              </div>
+            </section>
+            
+          </div>
+          
+          <!-- Search Results / Category Grid (검색 시 혹은 카테고리 클릭 시 노출) -->
+          <div class="search-grid-content hidden" id="searchGridContent">
+            <div class="grid-header-row">
+              <h2 id="searchGridTitle">검색 결과</h2>
+              <div class="filter-controls">
+                <select id="sortSelect">
+                  <option value="newest">최신순</option>
+                  <option value="popular">조회수순</option>
+                  <option value="likes">좋아요순</option>
+                </select>
+                <button class="btn-back-home" id="btnBackHome">
+                  <i data-lucide="x"></i> 닫기
+                </button>
+              </div>
+            </div>
+            <div class="video-grid" id="searchGrid">
+              <!-- JS가 검색 결과 카드를 렌더링 -->
+            </div>
+          </div>
+          
+        </div>
+        
+        <!-- BOOKMARKS VIEW -->
+        <div class="view-container" id="bookmarksView">
+          <div class="grid-header-row">
+            <h2><i data-lucide="heart" class="icon-inline text-pink"></i> 찜한 직캠 목록</h2>
+          </div>
+          <div class="video-grid" id="bookmarksGrid">
+            <!-- 찜한 카드들이 그리드로 배치됨 -->
+          </div>
+          <div class="empty-state hidden" id="bookmarksEmptyState">
+            <i data-lucide="heart-off"></i>
+            <p>아직 찜한 직캠이 없습니다.<br>마음에 드는 영상의 찜 버튼을 눌러보세요!</p>
+          </div>
+        </div>
+        
+        <!-- RANDOM VIEW -->
+        <div class="view-container" id="randomView">
+          <div class="random-card-wrapper">
+            <div class="random-card-title">
+              <h2>🎲 랜덤 직캠 추천</h2>
+              <p>어떤 영상을 볼지 고민된다면 산겸짱의 추천을 받아보세요!</p>
+            </div>
+            
+            <div class="random-highlight-card" id="randomHighlightCard">
+              <!-- 추천된 영상 카드 또는 미디어 플레이어 -->
+            </div>
+            
+            <button class="random-action-btn" id="randomReBtn">
+              <i data-lucide="refresh-cw"></i> 다른 영상 추천 받기
+            </button>
+          </div>
+        </div>
+        
+        <!-- RECENT VIEW -->
+        <div class="view-container" id="recentView">
+          <div class="grid-header-row">
+            <h2><i data-lucide="clock" class="icon-inline text-purple"></i> 최근 본 영상 목록</h2>
+            <button class="clear-recent-btn" id="clearRecentBtn">
+              <i data-lucide="trash-2"></i> 전체 삭제
+            </button>
+          </div>
+          <div class="video-grid" id="recentGrid">
+            <!-- 최근 시청 영상 카드 렌더링 -->
+          </div>
+          <div class="empty-state hidden" id="recentEmptyState">
+            <i data-lucide="video-off"></i>
+            <p>최근에 시청한 영상이 없습니다.<br>영상을 재생하면 자동으로 여기에 기록됩니다.</p>
+          </div>
+        </div>
+        
+      </div>
+      
+    </main>
+    
+    <!-- RIGHT DETAIL PANEL (VIDEO DETAILS) -->
+    <aside class="detail-panel" id="detailPanel">
+      
+      <!-- Video Player Container -->
+      <div class="video-player-container">
+        <div class="video-player-aspect">
+          <div id="playerPlaceholder" class="player-placeholder">
+            <div class="placeholder-content">
+              <i data-lucide="play-circle" class="large-play-icon"></i>
+              <p>영상을 선택하시면 바로 재생됩니다.</p>
+            </div>
+          </div>
+          <div id="ytPlayerContainer" class="yt-player-container hidden">
+            <!-- YouTube API 기반 Iframe이 주입됨 -->
+            <iframe id="mainYtPlayer" width="100%" height="100%" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Video Info -->
+      <div class="detail-info-section" id="detailInfoSection">
+        <h2 class="video-detail-title" id="detailTitle">비디오 제목이 여기에 표시됩니다.</h2>
+        
+        <div class="video-tags" id="detailTags">
+          <!-- 예: <span>#최산</span> -->
+        </div>
+        
+        <div class="channel-row">
+          <div class="channel-left">
+            <div class="channel-avatar">
+              <i data-lucide="radio"></i>
+            </div>
+            <div class="channel-meta">
+              <span class="channel-name" id="detailChannel">KBS Kpop</span>
+              <span class="channel-subs">구독자 2.35백만명</span>
+            </div>
+          </div>
+          <button class="subscribe-btn">구독</button>
+        </div>
+        
+        <div class="stats-and-actions">
+          <div class="video-stats">
+            <span class="views"><i data-lucide="eye"></i> <span id="detailViews">123,456</span></span>
+            <span class="likes"><i data-lucide="thumbs-up"></i> <span id="detailLikes">12.3K</span></span>
+          </div>
+          <div class="actions-row">
+            <button class="action-pill toggle-bookmark-btn" id="detailBookmarkBtn">
+              <i data-lucide="heart" class="bookmark-icon"></i> <span>찜</span>
+            </button>
+            <button class="action-pill share-btn" id="detailShareBtn">
+              <i data-lucide="share-2"></i> <span>공유</span>
+            </button>
+          </div>
+        </div>
+        
+        <div class="detail-divider"></div>
+        
+        <!-- Local Comments Section -->
+        <div class="comments-section">
+          <div class="comments-header">
+            <span>댓글 <strong id="commentsCount">0</strong>개</span>
+          </div>
+          
+          <div class="comment-input-row">
+            <textarea id="commentInput" placeholder="댓글을 입력하세요..." rows="1"></textarea>
+            <button id="commentSubmitBtn" class="comment-submit-btn">등록</button>
+          </div>
+          
+          <div class="comments-list" id="commentsList">
+            <!-- 로컬 저장된 댓글 리스트가 동적으로 배치됨 -->
+          </div>
+          
+          <button class="comments-more-btn" id="commentsMoreBtn">
+            더보기 <i data-lucide="chevron-down"></i>
+          </button>
+        </div>
+        
+        <div class="detail-divider"></div>
+        
+        <!-- Related Videos Section -->
+        <div class="related-section">
+          <h3>관련 영상</h3>
+          <div class="related-list" id="relatedList">
+            <!-- 관련 동영상 리스트 렌더링 -->
+          </div>
+        </div>
+        
+      </div>
+      
+    </aside>
+    
+  </div>
+  
+  <!-- BOTTOM MEDIA PLAYER BAR -->
+  <footer class="bottom-player-bar">
+    <div class="player-bar-inner">
+      
+      <!-- Left: now playing thumbnail & title -->
+      <div class="now-playing-info">
+        <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?auto=format&fit=crop&q=80&w=100" alt="현재 재생중 썸네일" class="now-playing-thumb" id="barThumb" />
+        <div class="now-playing-text">
+          <span class="now-playing-title" id="barTitle">재생 중인 영상이 없습니다.</span>
+          <span class="now-playing-channel" id="barChannel">영상을 선택해 주세요.</span>
+        </div>
+      </div>
+      
+      <!-- Center: media player progress & buttons -->
+      <div class="player-controls-wrapper">
+        <div class="control-buttons">
+          <button class="control-btn" id="controlShuffle" title="셔플"><i data-lucide="shuffle"></i></button>
+          <button class="control-btn" id="controlPrev" title="이전곡"><i data-lucide="skip-back"></i></button>
+          <button class="control-btn play-pause-btn" id="controlPlayPause" title="재생/일시정지"><i data-lucide="play"></i></button>
+          <button class="control-btn" id="controlNext" title="다음곡"><i data-lucide="skip-forward"></i></button>
+          <button class="control-btn" id="controlRepeat" title="반복"><i data-lucide="repeat"></i></button>
+        </div>
+        <div class="playback-progress-bar">
+          <span class="time-elapsed" id="timeElapsed">00:00</span>
+          <div class="progress-slider-container" id="progressBarContainer">
+            <div class="progress-bar-fill" id="progressBarFill" style="width: 0%;"></div>
+            <div class="progress-thumb" id="progressThumb" style="left: 0%;"></div>
+          </div>
+          <span class="time-total" id="timeTotal">00:00</span>
+        </div>
+      </div>
+      
+      <!-- Right: volume & list toggles -->
+      <div class="player-right-controls">
+        <button class="control-btn" id="volumeMuteBtn" title="음량"><i data-lucide="volume-2"></i></button>
+        <div class="volume-slider-container" id="volumeSliderContainer">
+          <div class="volume-bar-fill" id="volumeBarFill" style="width: 80%;"></div>
+          <div class="volume-thumb" id="volumeThumb" style="left: 80%;"></div>
+        </div>
+        <button class="control-btn" id="queueBtn" title="재생 대기열"><i data-lucide="list-music"></i></button>
+      </div>
+      
+    </div>
+  </footer>
+  
+  <!-- Add API Key Modal -->
+  <div class="modal-overlay hidden" id="apiKeyModal">
+    <div class="modal-box">
+      <h2>YouTube Data API Key 설정</h2>
+      <p>YouTube Data API를 사용해 실시간 최신 직캠을 검색하고 재생하고 싶다면 API 키를 입력하세요. 입력하지 않으면 내장된 K-POP 직캠 인기 데이터베이스(Mock)로 작동합니다.</p>
+      <div class="input-group">
+        <input type="text" id="apiKeyInput" placeholder="YouTube Data API v3 Key 입력" />
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn secondary" id="closeApiKeyBtn">Mock 데이터 사용</button>
+        <button class="modal-btn primary" id="saveApiKeyBtn">저장하기</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./js/data.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>
